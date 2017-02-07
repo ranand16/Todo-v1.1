@@ -1,0 +1,33 @@
+<div class="container">
+  <div class="row-fluid">
+    <div class="col-md-1.5 pull-right">
+      <a class="user__sign">
+        Sign Up
+      </a>
+    </div>
+    <div class="col-md-1 pull-right">
+      <button class="btn btn-success form-control user__sign">
+        Sign In
+      </button>
+    </div>
+  </div>
+  <div class="user__signup--form">
+    <form ng-submit="createUser()">
+      <input class="form-control" type="text" ng-model="username" placeholder="username">
+      <input class="form-control" type="text" ng-model="name" placeholder="Full Name">
+      <input class="form-control" type="password" ng-model="password" placeholder="Desired Password">
+      <center><button  class="btn btn-default" type="submit" name="button">Register</button></center>
+    </form>
+    <div align="center" class="alert alert-success user__signup--alert" role="alert" ng-if="registered">{{ registered }}</div>
+    <div align="center" class="alert alert-error user__signup--alert" role="alert" ng-if="notRegistered">{{ notRegistered }}</div>
+  </div>
+
+  <div class="user__signin--form">
+    <form ng-submit="userLogin()">
+      <input class="form-control" type="text" ng-model="susername" placeholder="username">
+      <input class="form-control" type="password" ng-model="spassword" placeholder="Password">
+      <center><button  class="btn btn-default" type="submit" name="button">LogIn</button></center>
+    </form>
+    <div align="center" class="alert alert-success user__signin--alert" role="alert" ng-if="success">{{ success }}</div>
+  </div>
+</div>

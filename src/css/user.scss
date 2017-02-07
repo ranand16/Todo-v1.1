@@ -1,0 +1,39 @@
+.user{
+  &__sign{
+    float: right;
+    margin : 10px auto 20px;
+  }
+  &__signup,&__signin{
+    &--form{
+      margin-left: 30vw;
+      margin-right: 30vw;
+      margin-bottom:40vh;
+      padding: 25px;
+      margin-top: 200px;
+      display: block;
+      border-width:medium;
+      border-style:double;
+      border-color:rgb(41, 41, 41);
+      border-radius: 2%;
+      //visibility: hidden;
+    }
+    &--alert{
+      margin: 5px auto;
+    }
+  }
+}
+input{
+  display: block;
+  padding: 5px;
+  margin: 5px;
+}
+
+
+// margin: top25px right50px bottom75px left100px;
+// top margin is 25px
+// right margin is 50px
+// bottom margin is 75px
+// left margin is 100px
+
+
+//border: border-width border-style border-color|initial|inherit;
