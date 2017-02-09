@@ -6,6 +6,7 @@ var api = express.Router();
 var bcrypt = require('bcrypt-nodejs');
 var jsonwebtoken = require('jsonwebtoken');
 
+
 function createToken(user){
   var token = jsonwebtoken.sign({
     _id:user._id,
@@ -18,7 +19,8 @@ function createToken(user){
     var user = new User({
       name: req.body.name,
       username: req.body.username,
-      password: req.body.password
+      password: req.body.password,
+      data:req.body.data
     });
     user.save(function(err){
       if(err){
@@ -72,7 +74,6 @@ function createToken(user){
             message:"successfully login!",
             token: token
           });
-          res.redirect('home');
         }
       }
     });
@@ -88,7 +89,7 @@ function createToken(user){
         if(err){
           res.status(403).send({success:false, message:"Failed to authenticate user"});
         } else {
-          res.decoded = decoded;
+          req.decoded = decoded;
           next();
         }
       });
@@ -100,15 +101,34 @@ function createToken(user){
   // with the valid token travel the other part of API
 
   api.route('/')
-    .post(function(req, res){
+    .put(function(req, res){
       var todo = new Todo({
-        
+        task: req.body.data.task,
+        isCompleted: req.body.data.isCompleted,
+        isEditing: req.body.data.isEdited
       });
+      User.update({username:req.decoded.username},{data:[{todo}]},function(req, res){
+        if(err){
+          res.send(err);
+          return
+        }
+        res.json({message:"New story created"});
+      })
     })
 
     .get(function(req, res){
-
+      User.find({username: req.decoded.username}, function(err, todos){
+        if(err){
+          res.send(err);
+          return;
+        }
+        res.json(todos);
+      });
     });
+    api.get('/me',function(req, res){
+      res.json(req.decoded);
+    });//for getting the decoded shit as many times we want for aa particular user session
+
 
 
   module.exports = api;

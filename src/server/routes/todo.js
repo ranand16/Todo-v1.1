@@ -13,7 +13,12 @@ router.get('/hehe',function(req,res){
   res.send("hehehahahh");
   });
 router.post('/',function(req,res){
-  var todo = new Todo(req.body);
+  //var todo = new Todo(req.body);
+  var todo = new Todo({
+    task: req.body.task,
+    isCompleted: req.body.isCompleted,
+    isEditing: req.body.isEditing
+  });
   todo.save(function(err){
     if(err){
       console.log(err);

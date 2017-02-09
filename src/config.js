@@ -1,8 +1,12 @@
 import angular from 'angular';
 import uiRouter from 'angular-ui-router';
+
 import todoFactory from 'factories/todo-factory';
 import userFactory from 'factories/user-factory';
 import homeFactory from 'factories/home-factory';
+//import authTokenFactory from 'factories/authToken-factory';
+//import authInterceptorFactory from 'factories/authInterceptor-factory';
+
 import todosController from 'todos/todos';
 import userController from 'user/user';
 import homeController from 'home/home';

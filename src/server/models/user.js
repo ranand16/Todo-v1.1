@@ -1,13 +1,20 @@
 var mongoose = require('mongoose');
-
 var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt-nodejs');
+
+var todoSchema = new Schema({
+  task: String,
+  isCompleted: Boolean,
+  isEditing: Boolean
+});
 
 var UserSchema = new Schema({
   name: String,
   username: {type: String, required: true, index:{unique:true}},
-  password: {type: String, required: true, select: false}
+  password: {type: String, required: true, select: false},
+  data:{type: [todoSchema]}
 });
+
 UserSchema.pre('save',function(next){
   var user = this;
   if(!user.isModified('password')) return next();
