@@ -23,15 +23,19 @@ const userFactory = angular.module('app.userFactory',[])
       $scope.password = '';
     });
    }
-   function userLogin($scope){
+   function userLogin($scope,$location){
     $http.post('/api/login',{
       username:$scope.susername,
       password:$scope.spassword
     }).success(response => {
       $scope.token = response.token;
       $scope.success = response.success;
-      AuthToken.setToken($scope.token); //as soon as its logged in ... set the token you got via response
+      AuthToken.setToken($scope.token);//as soon as its logged in ... set the token you got via response
+      console.log(AuthToken.getToken());
+      $scope.user = response;
+      $location.path('/todo');
     });
+
    }
    function logout(){
       AuthToken.setToken();

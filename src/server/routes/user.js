@@ -90,6 +90,7 @@ function createToken(user){
           res.status(403).send({success:false, message:"Failed to authenticate user"});
         } else {
           req.decoded = decoded;
+          console.log(req.decoded);
           next();
         }
       });

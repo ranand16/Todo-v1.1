@@ -3,16 +3,11 @@ import uiRouter from 'angular-ui-router';
 
 import todoFactory from 'factories/todo-factory';
 import userFactory from 'factories/user-factory';
-import homeFactory from 'factories/home-factory';
-//import authTokenFactory from 'factories/authToken-factory';
-//import authInterceptorFactory from 'factories/authInterceptor-factory';
 
 import todosController from 'todos/todos';
 import userController from 'user/user';
-import homeController from 'home/home';
 
-
-const app = angular.module('app',[uiRouter,todoFactory.name,userFactory.name,homeFactory.name]);
+const app = angular.module('app',[uiRouter,todoFactory.name,userFactory.name]);
 
 app.config(($stateProvider,$urlRouterProvider,$locationProvider) => {
   $urlRouterProvider.otherwise('/');
@@ -25,11 +20,6 @@ app.config(($stateProvider,$urlRouterProvider,$locationProvider) => {
     .state('about',{
       url:'/about',
       template:require('about/about.html')
-    })
-    .state('home',{
-      url:'/home',
-      template:require('home/home.html'),
-      controller:homeController
     })
     .state('user',{
       url:'/',
