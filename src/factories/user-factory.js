@@ -22,14 +22,20 @@ const userFactory = angular.module('app.userFactory',[])
       $scope.username = '';
       $scope.password = '';
     });
+<<<<<<< HEAD
   }
    function userLogin($scope){
+=======
+   }
+   function userLogin($scope,$location){
+>>>>>>> ea3ff7f938d19a7cbd52f821dc97878754384398
     $http.post('/api/login',{
       username:$scope.susername,
       password:$scope.spassword
     }).success(response => {
       $scope.token = response.token;
       $scope.success = response.success;
+<<<<<<< HEAD
       //AuthToken.setToken($scope.token); //as soon as its logged in ... set the token you got via response
       // getUser()
       //   .then(function(data){
@@ -37,7 +43,14 @@ const userFactory = angular.module('app.userFactory',[])
       //     console.log($scope.user);
       //   });
 
+=======
+      AuthToken.setToken($scope.token);//as soon as its logged in ... set the token you got via response
+      console.log(AuthToken.getToken());
+      $scope.user = response;
+      $location.path('/todo');
+>>>>>>> ea3ff7f938d19a7cbd52f821dc97878754384398
     });
+
    }
    function gettodos($scope){
      $http.get('/api').success(response => {
