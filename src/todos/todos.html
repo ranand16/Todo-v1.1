@@ -1,9 +1,9 @@
 <div class="container">
+  <h3>HAPPiE App</h3>
   <a ui-sref="about" class="nav-link">About</a>
-  <h1>ToDo App</h1>
   <form ng-submit="createTask()">
-    <input class="form-control todos__create-input" placeholder="What do I need to do?" ng-model="createTaskInput">
-    <button class="btn btn-success todos__create-button" type="button" name="button">Create Task</button>
+    <input class="form-control todos__create-input" placeholder="What work do I have?" ng-model="createTaskInput">
+    <button class="btn btn-primary todos__create-button" type="button" name="button">Create Task</button>
   </form>
   <table class="table table-striped">
     <tr>
@@ -21,21 +21,18 @@
         </form>
       </td>
       <td>
-        <button
+        <span
           ng-if="!todo.isEditing"
-          class="btn btn-info"
-          ng-click="onEditClick(todo)">
-          Edit
-        </button>
-        <button
+          ng-click="onEditClick(todo)"
+          class="glyphicon glyphicon-edit">
+        </span>
+        <span
           ng-if="!todo.isEditing"
-          class="btn btn-danger"
-          ng-click="deleteTask(todo)">
-          Delete
-        </button>
-
-        <button ng-click="updateTask(todo)" ng-if="todo.isEditing" class="btn btn-primary">Save</button>
-        <button ng-click="onCancelClick(todo)" ng-if="todo.isEditing" class="btn btn-default">Cancel</button>
+          ng-click="deleteTask(todo)"
+          class="glyphicon glyphicon-remove">
+        </span>
+        <span ng-click="updateTask(todo)" ng-if="todo.isEditing" class="btn glyphicon glyphicon-floppy-disk"></span>
+        <span ng-click="onCancelClick(todo)" ng-if="todo.isEditing" class="btn glyphicon glyphicon-remove-sign"></span>
 
       </td>
     </tr>
