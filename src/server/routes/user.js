@@ -96,11 +96,8 @@ function createToken(user){
           res.status(403).send({success:false, message:"Failed to authenticate user"});
         } else {
           req.decoded = decoded;
-<<<<<<< HEAD
           //console.log(req.decoded);
-=======
           console.log(req.decoded);
->>>>>>> ea3ff7f938d19a7cbd52f821dc97878754384398
           next();
         }
       });
@@ -157,7 +154,7 @@ function createToken(user){
           res.send(err);
           return;
         }
-        console.log("Task Updated");
+        console.log("Task Updated on screen");
         res.json({message:"Task Updated",
                   result:result
                 });
