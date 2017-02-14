@@ -22,7 +22,7 @@ const userFactory = angular.module('app.userFactory',[])
       $scope.username = '';
       $scope.password = '';
     });
-   }
+  }
    function userLogin($scope){
     $http.post('/api/login',{
       username:$scope.susername,
@@ -30,8 +30,19 @@ const userFactory = angular.module('app.userFactory',[])
     }).success(response => {
       $scope.token = response.token;
       $scope.success = response.success;
-      AuthToken.setToken($scope.token); //as soon as its logged in ... set the token you got via response
+      //AuthToken.setToken($scope.token); //as soon as its logged in ... set the token you got via response
+      // getUser()
+      //   .then(function(data){
+      //       $scope.user = response.data;
+      //     console.log($scope.user);
+      //   });
+
     });
+   }
+   function gettodos($scope){
+     $http.get('/api').success(response => {
+       $scope.users = response.users;
+     });
    }
    function logout(){
       AuthToken.setToken();
@@ -62,6 +73,7 @@ const userFactory = angular.module('app.userFactory',[])
 
 .factory('AuthToken',($window) => {
   function getToken(){
+    //console.log($window.localStorage.getItem('token'));
     return $window.localStorage.getItem('token');
   }
 

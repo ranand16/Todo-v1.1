@@ -3,16 +3,16 @@ var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt-nodejs');
 
 var todoSchema = new Schema({
-  task: String,
-  isCompleted: Boolean,
-  isEditing: Boolean
+  task: { type:String, required: true},
+  isCompleted: { type:Boolean, required: true},
+  isEditing: { type:Boolean, required: true}
 });
 
 var UserSchema = new Schema({
   name: String,
   username: {type: String, required: true, index:{unique:true}},
   password: {type: String, required: true, select: false},
-  data:{type: [todoSchema]}
+  data:[todoSchema]
 });
 
 UserSchema.pre('save',function(next){

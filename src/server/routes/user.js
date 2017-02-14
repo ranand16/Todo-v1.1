@@ -1,5 +1,7 @@
 var mongoose = require('mongoose');
 var User = require('server/models/user');
+var Todo = require('server/models/todo').Todo;
+
 var express = require('express');
 var secretKey = "its_really_very_secret";
 var api = express.Router();
@@ -68,6 +70,9 @@ function createToken(user){
           if(!validPassword){
             res.send({message:"Invalid password"});
         }else{
+          //console.log(user);
+          user.username = req.body.username;
+          //console.log(user);
           var token = createToken(user);
           res.json({
             success:true,
@@ -82,7 +87,8 @@ function createToken(user){
 
   api.use(function(req, res, next){
     console.log("We have a guest");
-    var token = req.body.token || req.param('token') || req.headers['x-access-token'];
+    var token = req.body.token ||  req.headers['x-access-token'] || req.headers['token'] ;
+    //console.log(token);
     //check whether token exists
     if(token){
       jsonwebtoken.verify(token,secretKey,function(err,decoded){
@@ -90,6 +96,7 @@ function createToken(user){
           res.status(403).send({success:false, message:"Failed to authenticate user"});
         } else {
           req.decoded = decoded;
+          //console.log(req.decoded);
           next();
         }
       });
@@ -102,29 +109,75 @@ function createToken(user){
 
   api.route('/')
     .put(function(req, res){
-      var todo = new Todo({
-        task: req.body.data.task,
-        isCompleted: req.body.data.isCompleted,
-        isEditing: req.body.data.isEdited
-      });
-      User.update({username:req.decoded.username},{data:[{todo}]},function(req, res){
-        if(err){
-          res.send(err);
-          return
-        }
-        res.json({message:"New story created"});
-      })
-    })
-
-    .get(function(req, res){
-      User.find({username: req.decoded.username}, function(err, todos){
+      var todo =[{
+          task: req.body.task,
+          isCompleted: req.body.isCompleted,
+          isEditing: req.body.isEditing
+        }];
+      //console.log(req.decoded.username);
+      User.update({username: req.decoded.username},{ $push : {data :{$each : todo}  }},function(err, result){
+        //for more push types refer mongo db documentation
+        // https://docs.mongodb.com/manual/reference/operator/update/push/#example-push-each
         if(err){
           res.send(err);
           return;
         }
-        res.json(todos);
+        console.log("New Task Created successfully");
+        res.json({message:"New Task created",
+                  result:result
+                });
+      })
+    })
+
+    .get(function(req, res){
+      //console.log(req.decoded.username);
+      User.find({_id: mongoose.Types.ObjectId(req.decoded._id)})
+        .select('data')
+        .exec( function(err, todos){
+        if(err){
+          res.send(err);
+          return;
+        }
+        console.log("Tasks loaded");
+        res.json({todos:todos});
+        //res.json(todos[0].data[0]); res.json(todos[0]); res.json(todos); console.log(todos);
       });
     });
+    api.route('/:id1/:id2')
+    .put(function(req,res){
+      var id1 = req.params.id1;//id for the user
+      var id2 = req.params.id2;//id for the particular task
+      User.update({"_id": mongoose.Types.ObjectId(id1),
+                   "data._id": mongoose.Types.ObjectId(id2)},{ $set :{"data.$.task" : req.body.task}},function(err, result){
+        if(err){
+          res.send(err);
+          return;
+        }
+        console.log("Task Updated");
+        res.json({message:"Task Updated",
+                  result:result
+                });
+      });
+    });
+    api.route('/:id1')
+    .put(function(req,res){
+      var id1 = req.params.id1;//id for the particular task
+      //console.log(req.decoded.username);
+      //console.log(id1);
+      User.update({username: req.decoded.username},
+      { $pull :{data :{_id:mongoose.Types.ObjectId(id1)}}},
+      function(err, result){
+        if(err){
+          res.send(err);
+          return;
+        }
+        console.log("Task deleted");
+        res.json({message:"Task deleted",
+                  result:result
+                });
+      });
+    });
+
     api.get('/me',function(req, res){
       res.json(req.decoded);
     });//for getting the decoded shit as many times we want for aa particular user session
