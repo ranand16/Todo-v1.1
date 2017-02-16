@@ -32,20 +32,27 @@ const userFactory = angular.module('app.userFactory',[])
     }).success(response => {
       $scope.token = response.token;
       $scope.success = response.success;
-      //AuthToken.setToken($scope.token); //as soon as its logged in ... set the token you got via response
-      // getUser()
-      //   .then(function(data){
-      //       $scope.user = response.data;
-      //     console.log($scope.user);
-      //   });
-
       AuthToken.setToken($scope.token);//as soon as its logged in ... set the token you got via response
-      console.log(AuthToken.getToken());
+      //console.log(AuthToken.getToken());
+      //console.log(response);
       $scope.user = response;
-      $location.path('/todo');
+      $location.path('/todoss');
     });
 
    }
+
+
+   function getTasks($scope){
+     $http.get('/api',{
+       headers : { token : AuthToken.getToken() }
+     }).success(response => {
+       $scope.todos = response.todos;
+       console.log("o/p");
+       console.log($scope.todos);
+     });
+   }
+
+
    function gettodos($scope){
      $http.get('/api').success(response => {
        $scope.users = response.users;
@@ -66,15 +73,22 @@ const userFactory = angular.module('app.userFactory',[])
     else
       return $q.reject({message:"Error in getting Token"}) ;
     }
+
+
+
    return {
     getUsers,
     userLogin,
     createUser,
     logout,
     isLoggedIn,
-    getUser
+    getUser,
+
+    getTasks
   };
 })
+
+
 
 
 
@@ -121,9 +135,6 @@ const userFactory = angular.module('app.userFactory',[])
     responseError
   };
 });
-
-
-
 
 
 

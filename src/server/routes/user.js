@@ -134,13 +134,13 @@ function createToken(user){
       //console.log(req.decoded.username);
       User.find({_id: mongoose.Types.ObjectId(req.decoded._id)})
         .select('data')
-        .exec( function(err, todos){
+        .exec(function(err, todos){
         if(err){
           res.send(err);
           return;
         }
         console.log("Tasks loaded");
-        res.json({todos:todos});
+        res.json({todos:todos[0].data});
         //res.json(todos[0].data[0]); res.json(todos[0]); res.json(todos); console.log(todos);
       });
     });

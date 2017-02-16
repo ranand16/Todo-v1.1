@@ -17,6 +17,11 @@ app.config(($stateProvider,$urlRouterProvider,$locationProvider) => {
       template:require('todos/todos.html'),
       controller:todosController
     })
+    .state('todoss',{
+      url:'/todoss',
+      template:require('user/todoss.html'),
+      controller:userController
+    })
     .state('about',{
       url:'/about',
       template:require('about/about.html')
