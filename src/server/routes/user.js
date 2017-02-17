@@ -97,7 +97,6 @@ function createToken(user){
         } else {
           req.decoded = decoded;
           //console.log(req.decoded);
-          console.log(req.decoded);
           next();
         }
       });
@@ -181,7 +180,7 @@ function createToken(user){
 
     api.get('/me',function(req, res){
       res.json(req.decoded);
-    });//for getting the decoded shit as many times we want for aa particular user session
+    });//for getting the decoded as many times we want for aa particular user session
 
 
 

@@ -2,11 +2,11 @@
   <h3>HAPPiE App</h3>
   <a ui-sref="about" class="nav-link">About</a>
   <a ui-sref="user" class="nav-link" ng-if="loggedIn()" ng-click="logout()">LogOut</a>
-<!--
+
   <form ng-submit="createTask()">
     <input class="form-control todos__create-input" placeholder="What work do I have?" ng-model="createTaskInput">
     <button class="btn btn-primary todos__create-button" type="button" name="button">Create Task</button>
-  </form> -->
+
   <table class="table table-striped">
     <tr>
       <th>Completed</th>
@@ -15,8 +15,7 @@
     </tr>
     <tr ng-repeat="todo in todos">
       <td>
-        <!-- <input type="checkbox" ng-checked="todo.isCompleted" ng-click="onCompletedClick(todo)">
-         -->
+        <input type="checkbox" ng-checked="todo.isCompleted" ng-click="onCompletedClick(todo)">
       </td>
       <!-- "task completed" class will be added to the span when todo "isCompleted" is true-->
       <td>
@@ -26,18 +25,18 @@
         </form> -->
       </td>
       <td>
-        <!-- <span
+        <span
           ng-if="!todo.isEditing"
           ng-click="onEditClick(todo)"
           class="glyphicon glyphicon-edit">
         </span>
-        <span
+        <!-- <span
           ng-if="!todo.isEditing"
           ng-click="deleteTask(todo)"
           class="glyphicon glyphicon-remove">
-        </span>
-        <span ng-click="updateTask(todo)" ng-if="todo.isEditing" class="btn glyphicon glyphicon-floppy-disk"></span>
-        <span ng-click="onCancelClick(todo)" ng-if="todo.isEditing" class="btn glyphicon glyphicon-remove-sign"></span> -->
+        </span> -->
+        <!-- <span ng-click="updateTask(todo)" ng-if="todo.isEditing" class="btn glyphicon glyphicon-floppy-disk"></span> -->
+        <span ng-click="onCancelClick(todo)" ng-if="todo.isEditing" class="btn glyphicon glyphicon-remove-sign"></span>
 
       </td>
     </tr>

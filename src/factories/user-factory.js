@@ -9,6 +9,8 @@ const userFactory = angular.module('app.userFactory',[])
       $scope.users = response.users;
     });
   }
+
+
   function createUser($scope){
     $http.post('/api/signup',{
     name: $scope.name,
@@ -22,9 +24,9 @@ const userFactory = angular.module('app.userFactory',[])
       $scope.username = '';
       $scope.password = '';
     });
-  }
-   function userLogin($scope){
    }
+
+
    function userLogin($scope,$location){
     $http.post('/api/login',{
       username:$scope.susername,
@@ -38,7 +40,6 @@ const userFactory = angular.module('app.userFactory',[])
       $scope.user = response;
       $location.path('/todoss');
     });
-
    }
 
 
@@ -47,34 +48,71 @@ const userFactory = angular.module('app.userFactory',[])
        headers : { token : AuthToken.getToken() }
      }).success(response => {
        $scope.todos = response.todos;
-       console.log("o/p");
-       console.log($scope.todos);
+
+       //console.log("o/p");
+       //console.log($scope.todos);
      });
    }
 
 
-   function gettodos($scope){
-     $http.get('/api').success(response => {
-       $scope.users = response.users;
+   function createTask($scope, params){
+   //  if(!$scope.createTaskInput) { return; }
+     $http.put('/api',{
+       task: $scope.createTaskInput,
+       isCompleted: false,
+       isEditing: false},
+       {
+         headers : { token : AuthToken.getToken() }
+       }).success(response=>{
+       getTasks($scope);
+       $scope.createTaskInput = '';
      });
+     //params.createHasInput = false;
+     //$scope.createTaskInput = '';
    }
+
+
+   function watchCreateTaskInput(params,$scope,val){
+     const createHasInput = params.createHasInput;
+     if(!val && createHasInput){
+       $scope.todos.pop();
+       params.createHasInput = false;
+     }else if(val && !createHasInput){
+       $scope.todos.push({task:val, isCompleted:false});
+       params.createHasInput = true;
+     }else if (val && createHasInput) {
+       $scope.todos[$scope.todos.length - 1].task = val;
+     }
+   }
+
+  //
+  //  function updateTask($scope, todo){
+  //    console.log($todo._id);
+  //    $http.put(`/api/${todo._id}/${todo._id}`,{task:todo.updatedTask}).success(
+  //        response => {
+  //        getTasks($scope);
+  //        todo.isEditing = false;
+  //      });
+  // }
+
+
    function logout(){
       AuthToken.setToken();
    }
+
    function isLoggedIn(){
     if(AuthToken.getToken())
       return true;
     else
       return false;
    }
+
    function getUser(){
     if(AuthToken.getToken())
       return $http.get('/api/me'); //refer routes/user.js line 128
     else
       return $q.reject({message:"Error in getting Token"}) ;
     }
-
-
 
    return {
     getUsers,
@@ -84,12 +122,11 @@ const userFactory = angular.module('app.userFactory',[])
     isLoggedIn,
     getUser,
 
-    getTasks
+    getTasks,
+    watchCreateTaskInput,
+    createTask
   };
 })
-
-
-
 
 
 .factory('AuthToken',($window) => {
