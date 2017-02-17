@@ -25,8 +25,6 @@ const userFactory = angular.module('app.userFactory',[])
       $scope.password = '';
     });
    }
-
-
    function userLogin($scope,$location){
     $http.post('/api/login',{
       username:$scope.susername,
@@ -41,8 +39,6 @@ const userFactory = angular.module('app.userFactory',[])
       $location.path('/todoss');
     });
    }
-
-
    function getTasks($scope){
      $http.get('/api',{
        headers : { token : AuthToken.getToken() }
@@ -53,9 +49,6 @@ const userFactory = angular.module('app.userFactory',[])
        //console.log($scope.todos);
      });
    }
-
-
-
    function createTask($scope, params){
    //  if(!$scope.createTaskInput) { return; }
      $http.put('/api',{
@@ -71,8 +64,6 @@ const userFactory = angular.module('app.userFactory',[])
      //params.createHasInput = false;
      //$scope.createTaskInput = '';
    }
-
-
    function watchCreateTaskInput(params,$scope,val){
      const createHasInput = params.createHasInput;
      if(!val && createHasInput){
@@ -85,50 +76,50 @@ const userFactory = angular.module('app.userFactory',[])
        $scope.todos[$scope.todos.length - 1].task = val;
      }
    }
-
-  //
-  //  function updateTask($scope, todo){
-  //    console.log($todo._id);
-  //    $http.put(`/api/${todo._id}/${todo._id}`,{task:todo.updatedTask}).success(
-  //        response => {
-  //        getTasks($scope);
-  //        todo.isEditing = false;
-  //      });
-  // }
-
-
-
-     function deleteTask($scope, todoToDelete){
-       console.log(todoToDelete._id);
-       $http.put(`/api/${todoToDelete._id}`,
-         {},
+   function updateTask($scope, todo){
+    //  console.log(todo.updatedTask);
+     $http.get('/api/me',{
+       headers : { token : AuthToken.getToken() }
+     }).success(response => {
+       $scope.resp = response.resp;
+       console.log($scope.resp);
+       var uid = $scope.resp._id;
+       //console.log($scope.uid);
+       $http.put(`/api/${uid}/${todo._id}`,
+         {task:todo.updatedTask},
          {
          headers : { token : AuthToken.getToken() }
-       }).success(response => {
+         }).success(response => {
            getTasks($scope);
-         });
-     }
-
-
-
+           todo.isEditing = false;
+       });
+     });
+   }
+   function deleteTask($scope, todoToDelete){
+     //console.log(todoToDelete._id);
+     $http.put(`/api/${todoToDelete._id}`,
+       {},
+       {
+       headers : { token : AuthToken.getToken() }
+     }).success(response => {
+         getTasks($scope);
+       });
+   }
    function logout(){
       AuthToken.setToken();
    }
-
    function isLoggedIn(){
     if(AuthToken.getToken())
       return true;
     else
       return false;
    }
-
    function getUser(){
     if(AuthToken.getToken())
       return $http.get('/api/me'); //refer routes/user.js line 128
     else
       return $q.reject({message:"Error in getting Token"}) ;
     }
-
    return {
     getUsers,
     userLogin,
@@ -140,7 +131,8 @@ const userFactory = angular.module('app.userFactory',[])
     getTasks,
     watchCreateTaskInput,
     createTask,
-    deleteTask
+    deleteTask,
+    updateTask
   };
 })
 
@@ -163,32 +155,26 @@ const userFactory = angular.module('app.userFactory',[])
   };
 })
 
-
-
-
-
-
-
-.factory('authInterceptorFactory',($q, $location, AuthToken) => {
-  function request(config){
-    var token = AuthToken.getToken();
-    if(token){
-      config.headers['x-access-token'] = token; //same as giving heaers in POSTMAN app to get access to aa different url
-    }
-    return config;
-  }
-
-  function responseError(config){
-    if(response.status == 403)
-      $location.path('/');
-    return $q.reject(response);
-  }
-  return{
-    request,
-    responseError
-  };
-});
-
-
+//
+// .factory('authInterceptorFactory',($q, $location, AuthToken) => {
+//   function request(config){
+//     var token = AuthToken.getToken();
+//     if(token){
+//       config.headers['x-access-token'] = token; //same as giving heaers in POSTMAN app to get access to aa different url
+//     }
+//     return config;
+//   }
+//
+//   function responseError(config){
+//     if(response.status == 403)
+//       $location.path('/');
+//     return $q.reject(response);
+//   }
+//   return{
+//     request,
+//     responseError
+//   };
+// });
+// THese codes are meant for future use.
 
 export default userFactory;

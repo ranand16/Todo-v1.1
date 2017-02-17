@@ -179,7 +179,7 @@ function createToken(user){
     });
 
     api.get('/me',function(req, res){
-      res.json(req.decoded);
+      res.json({resp:req.decoded});
     });//for getting the decoded as many times we want for aa particular user session
 
 

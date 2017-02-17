@@ -38,7 +38,7 @@ export default function($scope, $location, userFactory){
   userFactory.getTasks($scope);
   $scope.createTask = _.partial(userFactory.createTask, $scope, params);
   $scope.$watch('createTaskInput',_.partial(userFactory.watchCreateTaskInput,params,$scope));
-  //$scope.updateTask = _.partial(userFactory.updateTask, $scope);
+  $scope.updateTask = _.partial(userFactory.updateTask, $scope);
   $scope.deleteTask = _.partial(userFactory.deleteTask, $scope);
 
 

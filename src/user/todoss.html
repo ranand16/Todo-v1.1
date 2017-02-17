@@ -1,9 +1,9 @@
 <div class="container">
   <h3>HAPPiE App</h3>
-  <a ui-sref="about" class="nav-link">About</a>
-  <a ui-sref="user" class="nav-link" ng-if="loggedIn()" ng-click="logout()">LogOut</a>
-
-  <form ng-submit="createTask()">
+  <div class="row">
+    <a ui-sref="user" class="nav-link" ng-if="loggedIn()" ng-click="logout()">LogOut</a>
+    <a ui-sref="about" class="nav-link">About</a>
+  </div>  <form ng-submit="createTask()">
     <input class="form-control todos__create-input" placeholder="What work do I have?" ng-model="createTaskInput">
     <button class="btn btn-primary todos__create-button" type="button" name="button">Create Task</button>
 
@@ -20,9 +20,9 @@
       <!-- "task completed" class will be added to the span when todo "isCompleted" is true-->
       <td>
         <span ng-class="{'todos__task--completed':todo.isCompleted}" ng-if="!todo.isEditing" class="todos__task">{{todo.task}}</span>
-        <!-- <form ng-submit="updateTask(todo)">
+        <form ng-submit="updateTask(todo)">
           <input ng-if="todo.isEditing" class="form-control todos__update-input" ng-value="todo.task" ng-model="todo.updatedTask">
-        </form> -->
+        </form>
       </td>
       <td>
         <span
@@ -35,7 +35,7 @@
           ng-click="deleteTask(todo)"
           class="glyphicon glyphicon-remove">
         </span>
-        <!-- <span ng-click="updateTask(todo)" ng-if="todo.isEditing" class="btn glyphicon glyphicon-floppy-disk"></span> -->
+        <span ng-click="updateTask(todo)" ng-if="todo.isEditing" class="btn glyphicon glyphicon-floppy-disk"></span>
         <span ng-click="onCancelClick(todo)" ng-if="todo.isEditing" class="btn glyphicon glyphicon-remove-sign"></span>
 
       </td>
