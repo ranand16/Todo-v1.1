@@ -55,6 +55,7 @@ const userFactory = angular.module('app.userFactory',[])
    }
 
 
+
    function createTask($scope, params){
    //  if(!$scope.createTaskInput) { return; }
      $http.put('/api',{
@@ -96,6 +97,20 @@ const userFactory = angular.module('app.userFactory',[])
   // }
 
 
+
+     function deleteTask($scope, todoToDelete){
+       console.log(todoToDelete._id);
+       $http.put(`/api/${todoToDelete._id}`,
+         {},
+         {
+         headers : { token : AuthToken.getToken() }
+       }).success(response => {
+           getTasks($scope);
+         });
+     }
+
+
+
    function logout(){
       AuthToken.setToken();
    }
@@ -124,7 +139,8 @@ const userFactory = angular.module('app.userFactory',[])
 
     getTasks,
     watchCreateTaskInput,
-    createTask
+    createTask,
+    deleteTask
   };
 })
 

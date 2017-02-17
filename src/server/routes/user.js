@@ -162,8 +162,8 @@ function createToken(user){
     api.route('/:id1')
     .put(function(req,res){
       var id1 = req.params.id1;//id for the particular task
-      //console.log(req.decoded.username);
-      //console.log(id1);
+      console.log(req.decoded.username);
+      console.log(id1);
       User.update({username: req.decoded.username},
       { $pull :{data :{_id:mongoose.Types.ObjectId(id1)}}},
       function(err, result){
