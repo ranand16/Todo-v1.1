@@ -10,3 +10,4 @@ STEP 5. create a db "todos"
 STEP 6. create two collections "todos" and "users"
 STEP 7. refer the models folder for the schemas.
 STEP 8. run "npm run dev" in terminal
+STEP 9. Open browser type in "localhost:8080"
