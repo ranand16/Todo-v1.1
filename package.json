@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "NODE_PATH=$NODE_PATH:./src node server",
-    "dev": "npm start & webpack-dev-server --progress --colors"
+    "dev": "npm start & webpack-dev-server --progress --colors",
+    "postinstall":"webpack -p"
   },
   "dependencies": {
     "angular": "*",
