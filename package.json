@@ -18,7 +18,8 @@
     "loadash": "0.0.1",
     "lodash": "^4.16.6",
     "mongoose": "*",
-    "jsonwebtoken":"*"
+    "jsonwebtoken":"*",
+    "webpack": "^1.13.3"
   },
   "author": "Rishabh Anand",
   "license": "ISC",
